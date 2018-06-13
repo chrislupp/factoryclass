@@ -2,66 +2,31 @@
 #include <iostream>
 #include <vector>
 
+#include "stooge.h"
+
 using namespace std;
 
 
-class Stooge
-{
-  public:
-    // Factory Method
-    static Stooge *make_stooge(int choice);
-    virtual void slap_stick() = 0;
-};
+
 
 int main()
 {
-  vector<Stooge*> roles;
-  int choice;
-  while (true)
-  {
-    cout << "Larry(1) Moe(2) Curly(3) Go(0): ";
-    cin >> choice;
-    if (choice == 0)
-      break;
-    roles.push_back(Stooge::make_stooge(choice));
-  }
-  for (int i = 0; i < roles.size(); i++)
-    roles[i]->slap_stick();
-  for (int i = 0; i < roles.size(); i++)
-    delete roles[i];
-}
+    vector<Stooge*> roles;
+  
+    // create Larry
+    roles.push_back(Larry::Create());
 
-class Larry: public Stooge
-{
-  public:
-    void slap_stick()
-    {
-        cout << "Larry: poke eyes\n";
-    }
-};
-class Moe: public Stooge
-{
-  public:
-    void slap_stick()
-    {
-        cout << "Moe: slap head\n";
-    }
-};
-class Curly: public Stooge
-{
-  public:
-    void slap_stick()
-    {
-        cout << "Curly: suffer abuse\n";
-    }
-};
+    // create Moe
+    roles.push_back(Moe::Create());
 
-Stooge *Stooge::make_stooge(int choice)
-{
-  if (choice == 1)
-    return new Larry;
-  else if (choice == 2)
-    return new Moe;
-  else
-    return new Curly;
+    // create Curly
+    roles.push_back(Curly::Create());
+
+
+    // run the slap stick function of all role elements
+    for (int i = 0; i < roles.size(); i++)
+        roles[i]->slap_stick();
+
+
+    return 0;
 }
