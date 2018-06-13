@@ -25,7 +25,7 @@ public:
         cout << "Larry: poke eyes\n";
     }
 
-    static Stooge * __stdcall Create() { return new Larry(); }
+    static Stooge *  Create() { return new Larry(); }
 
 };
 
@@ -38,7 +38,7 @@ public:
         cout << "Moe: slap head\n";
     }
 
-    static Stooge * __stdcall Create() { return new Moe(); }
+    static Stooge *  Create() { return new Moe(); }
 
 };
 
@@ -51,6 +51,6 @@ public:
         cout << "Curly: suffer abuse\n";
     }
 
-    static Stooge * __stdcall Create() { return new Curly(); }
+    static Stooge *  Create() { return new Curly(); }
 
 };
