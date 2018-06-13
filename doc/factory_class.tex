@@ -1,0 +1,185 @@
+\documentclass[]{scrartcl}
+
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{caption}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=C++,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\footnotesize\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=4
+}
+
+%opening
+\title{Factory Class Example}
+\author{Christopher A. Lupp}
+
+\begin{document}
+
+\maketitle
+
+
+The code in this example was modified from: \url{https://sourcemaking.com/design\_patterns/factory\_method/cpp/}
+
+This example illustrates the use of a factory class. A generic implementation (of a generic stooge) is written upon which specific class implementations are based. This permits specific classes to be written outside of the main code base and be included at a later date.
+
+The generic class implementation is listed below. It contains a virtual function that is redefined in the specific class implementations.
+
+\begin{lstlisting}[caption=stooge.h]
+//==============================================================================
+//
+// General Implementation of a Stooge
+//
+// Note that this file does not contain any references to the specific stooge
+// implementations. As such, they can be kept entirely independent of the "core"
+// stooge code (implemented outside of it).
+//
+// This example was adapted from:
+//      https://sourcemaking.com/design_patterns/factory_method/cpp/1 
+//
+// Adaptations were made by: C. Lupp
+//
+//==============================================================================
+#pragma once
+
+#include <iostream>
+
+using namespace std;
+
+
+class Stooge
+{
+public:
+// Factory Method
+virtual void slap_stick() = 0;
+};
+\end{lstlisting}
+
+
+The specific implementation of the individual classes (here: the Three Stooges). It should be noted that while the generic implementation has no dependencies on the specific implementations (no include of headers needed). However, the specific implementation inherits from the generic, thereby necessitating an include to the generic declaration.
+
+\begin{lstlisting}[caption=three.h]
+//==============================================================================
+//
+// Specific Implementation of the Three Stooges
+//
+// Note that this file contains a dependency on the stooge.h
+// header file, as these implementations are derived from the
+// Stooge class.
+//
+// This example was adapted from:
+//      https://sourcemaking.com/design_patterns/factory_method/cpp/1 
+//
+// Adaptations were made by: C. Lupp
+//
+//==============================================================================
+#pragma once
+
+#include "stooge.h"
+
+
+class Larry : public Stooge
+{
+public:
+void slap_stick()
+{
+cout << "Larry: poke eyes\n";
+}
+
+static Stooge *  Create() { return new Larry(); }
+
+};
+
+
+class Moe : public Stooge
+{
+public:
+void slap_stick()
+{
+cout << "Moe: slap head\n";
+}
+
+static Stooge *  Create() { return new Moe(); }
+
+};
+
+
+class Curly : public Stooge
+{
+public:
+void slap_stick()
+{
+cout << "Curly: suffer abuse\n";
+}
+
+static Stooge *  Create() { return new Curly(); }
+
+};
+\end{lstlisting}
+
+Finally, the example main program shown below uses the previously defined (different) classes together in a common vector.
+
+\begin{lstlisting}[caption=main.cpp]
+//==============================================================================
+//
+// Main Program
+//
+// Note that this file contains dependencies for both stooge.h (general 
+// implementation) and three.h (specific implementation).
+//
+// This example was adapted from:
+//      https://sourcemaking.com/design_patterns/factory_method/cpp/1 
+//
+// Adaptations were made by: C. Lupp
+//
+//==============================================================================
+
+#include <iostream>
+#include <vector>
+
+#include "stooge.h"
+#include "three.h"
+
+using namespace std;
+
+
+int main()
+{
+vector<Stooge*> roles;
+
+// create Larry
+roles.push_back(Larry::Create());
+
+// create Moe
+roles.push_back(Moe::Create());
+
+// create Curly
+roles.push_back(Curly::Create());
+
+
+// run the slap stick function of all role elements
+for (int i = 0; i < roles.size(); i++)
+roles[i]->slap_stick();
+
+
+return 0;
+}
+\end{lstlisting}
+
+\end{document}
