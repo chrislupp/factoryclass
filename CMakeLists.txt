@@ -5,4 +5,4 @@ project(factory)
 
 
 
-add_executable(stoogefactory stooge.h main.cpp)
+add_executable(stoogefactory three.h stooge.h main.cpp)

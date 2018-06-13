@@ -1,12 +1,24 @@
+//==============================================================================
+//
+// Main Program
+//
+// Note that this file contains dependencies for both stooge.h (general 
+// implementation) and three.h (specific implementation).
+//
+// This example was adapted from:
+//      https://sourcemaking.com/design_patterns/factory_method/cpp/1 
+//
+// Adaptations were made by: C. Lupp
+//
+//==============================================================================
 
 #include <iostream>
 #include <vector>
 
 #include "stooge.h"
+#include "three.h"
 
 using namespace std;
-
-
 
 
 int main()
